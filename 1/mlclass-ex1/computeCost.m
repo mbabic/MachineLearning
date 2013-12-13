@@ -1,5 +1,7 @@
-%   parameter for linear regression to fit the data points in X and y
-
+function J = computeCost(X, y, theta)
+%COMPUTECOST COmput cost for linear regression.
+%	J = COMPUTCOST(X, y, theta) computes the cost of using theta as the 
+%	parameter for linear regression ot fit the data points in X and y
 % Initialize some useful values
 m = length(y); % number of training examples
 
@@ -11,8 +13,7 @@ J = 0;
 %               You should set J to the cost.
 
 
-
-
+J = (1 / (2 * m)) * sum(((X*theta) - y) .^ 2);
 
 % =========================================================================
 
