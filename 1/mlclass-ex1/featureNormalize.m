@@ -13,5 +13,6 @@ for i=1:size(X)(2)
 	avg = mean(X(:, i));
 	std_deviation = std(X(:, i));
 	X_norm(:, i) = (X(:,i) .- avg) / std_deviation;
-
+	mu(1, i) = avg;
+	sigma(1, i) = std_deviation;
 end
