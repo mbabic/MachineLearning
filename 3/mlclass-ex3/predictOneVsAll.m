@@ -17,8 +17,6 @@ p = zeros(size(X, 1), 1);
 % Add ones to the X data matrix
 X = [ones(m, 1) X];
 
-%       are in rows, then, you can use max(A, [], 2) to obtain the max 
-
 % Note that the below calculation can be done on one line but has been broken
 % into several steps (for clarity/pedagogical reasons)
 
