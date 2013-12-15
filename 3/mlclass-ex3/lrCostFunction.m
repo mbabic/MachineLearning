@@ -17,12 +17,12 @@ J = 	(1 / m) * sum ( (-y) .* (log(sigmoid(X*theta))) - ...
 % regularized but we still want to implement the equation in a vectorized
 % way.
 grad = (1 / m) * (X' * (sigmoid(X*theta) - y));
-tmp = grad(1)
+tmp = grad(1);
 
 % Now we regularize the gradient
-grad = grad + ((lambda / m) * theta)
+grad = grad + ((lambda / m) * theta);
 
 % Un-regularize the 0th gradient.
-grad(1) = tmp
+grad(1) = tmp;
 
 end
