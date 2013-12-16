@@ -30,30 +30,7 @@ J = 0;
 Theta1_grad = zeros(size(Theta1));
 Theta2_grad = zeros(size(Theta2));
 
-% ====================== YOUR CODE HERE ======================
-% Instructions: You should complete the code by working through the
-%               following parts.
-%
-% Part 1: Feedforward the neural network and return the cost in the
-%         variable J. After implementing Part 1, you can verify that your
-%         cost function computation is correct by verifying the cost
-%         computed in ex4.m
-%
-% Part 2: Implement the backpropagation algorithm to compute the gradients
-%         Theta1_grad and Theta2_grad. You should return the partial derivatives of
-%         the cost function with respect to Theta1 and Theta2 in Theta1_grad and
-%         Theta2_grad, respectively. After implementing Part 2, you can check
-%         that your implementation is correct by running checkNNGradients
-%
-%         Note: The vector y passed into the function is a vector of labels
-%               containing values from 1..K. You need to map this vector into a 
-%               binary vector of 1's and 0's to be used with the neural network
-%               cost function.
-%
-%         Hint: We recommend implementing backpropagation using a for-loop
-%               over the training examples if you are implementing it for the 
-%               first time.
-%
+
 % Part 3: Implement regularization with the cost function and gradients.
 %
 %         Hint: You can implement this around the code for
@@ -61,6 +38,8 @@ Theta2_grad = zeros(size(Theta2));
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
+
+
 % Add column of ones to X corresponding to bias unit.
 X = [ones(m, 1) X];
 
@@ -75,6 +54,10 @@ _y = zeros(num_labels, 1);
 % in the calculation of the cost function (such that such a vector does not have
 % to be created in each iteration of the main for loop)
 ones_vector = ones(num_labels, 1);
+
+% Accumulated gradient vars.
+Delta_1 = zeros(size(Theta1));
+Delta_2 = zeros(size(Theta2));
 
 % Done in a loop one example at a time to ease the implementation of the 
 % backward propogation algorithm.
@@ -96,10 +79,26 @@ for i = 1:m
 			_y(j, 1) = 0;
 		end
 	end
+
+	% Calculate the next summand in the cost function.
 	J = J + sum( ...
 	    ((-_y) .* log(a_3)) - ... 
 	    ((ones_vector - _y) .* log(ones_vector - a_3)) ...
 	    );
+
+	% Now we proceed with the back propogation calculations.
+	
+	% First, we calculate delta values for the output layer.
+	delta_3 = a_3 - _y;
+	% Then, we calculate delta values for the hidden layer.
+	delta_2 = (Theta2' * delta_3) .* sigmoidGradient([1; z_2]);
+	delta_2 = delta_2(2:end);	% remove delta_2_0 term
+
+
+	% Now we accumulate the gradients.
+	Delta_2 = Delta_2 + (delta_3 * a_2');
+	Delta_1 = Delta_1 + (delta_2 * a_1');
+
 end
 J = J / m;
 
@@ -107,6 +106,10 @@ J = J / m;
 Theta1_sum = sum(sum(Theta1(:, 2 : end) .^ 2));
 Theta2_sum = sum(sum(Theta2(:, 2 : end) .^ 2));
 J = J + ( (lambda / (2 * m)) * (Theta1_sum + Theta2_sum) );
+
+% Accumulate the gradients.
+Theta1_grad = Delta_1 ./ m;
+Theta2_grad = Delta_2 ./ m;
 
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
