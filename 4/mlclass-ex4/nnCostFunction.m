@@ -103,6 +103,10 @@ for i = 1:m
 end
 J = J / m;
 
+% Now we regularize the cost function using the regularization parameter lambda.
+Theta1_sum = sum(sum(Theta1(:, 2 : end) .^ 2));
+Theta2_sum = sum(sum(Theta2(:, 2 : end) .^ 2));
+J = J + ( (lambda / (2 * m)) * (Theta1_sum + Theta2_sum) );
 
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
