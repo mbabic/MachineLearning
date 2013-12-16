@@ -61,28 +61,48 @@ Theta2_grad = zeros(size(Theta2));
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
+% Add column of ones to X corresponding to bias unit.
+X = [ones(m, 1) X];
 
+% h is a matrix storing the results of the 
+h = zeros(num_labels, m);
 
+% _y is a (num_labels) sized column vector created from the result of each
+% training example to be used in the calculation of the cost function.
+_y = zeros(num_labels, 1);
 
+% ones_vector is a convenience variable -- an column vector of 1's to be used
+% in the calculation of the cost function (such that such a vector does not have
+% to be created in each iteration of the main for loop)
+ones_vector = ones(num_labels, 1);
 
+% Done in a loop one example at a time to ease the implementation of the 
+% backward propogation algorithm.
+for i = 1:m
+	a_1 = X(i, :)';
 
+	z_2 = Theta1 * a_1;
+	a_2 = sigmoid(z_2);
+	a_2 = [1; a_2];		% add bias unit to a_2
 
+	z_3 = Theta2 * a_2;
+	a_3 = sigmoid(z_3);
 
+	% We now create appropriate y vector for this training example.
+	for j = 1:num_labels
+		if (y(i, 1) == j)
+			_y(j, 1) = 1;
+		else
+			_y(j, 1) = 0;
+		end
+	end
+	J = J + sum( ...
+	    ((-_y) .* log(a_3)) - ... 
+	    ((ones_vector - _y) .* log(ones_vector - a_3)) ...
+	    );
+end
+J = J / m;
 
-
-
-
-
-
-
-
-
-
-
-
-% -------------------------------------------------------------
-
-% =========================================================================
 
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
