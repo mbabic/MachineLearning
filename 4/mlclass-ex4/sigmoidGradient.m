@@ -8,26 +8,8 @@ function g = sigmoidGradient(z)
 
 g = zeros(size(z));
 
-% ====================== YOUR CODE HERE ======================
-% Instructions: Compute the gradient of the sigmoid function evaluated at
-%               each value of z (z can be a matrix, vector or scalar).
+sigmoid_g = 1.0 ./ (1.0 + exp(-z));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-% =============================================================
-
-
-
+g = (sigmoid_g) .* (ones(size(z)) - sigmoid_g);
 
 end
