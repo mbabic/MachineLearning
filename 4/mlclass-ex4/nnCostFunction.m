@@ -111,6 +111,12 @@ J = J + ( (lambda / (2 * m)) * (Theta1_sum + Theta2_sum) );
 Theta1_grad = Delta_1 ./ m;
 Theta2_grad = Delta_2 ./ m;
 
+% Regularize gradients.
+Theta1_grad(:, 2:end) = Theta1_grad(:, 2: end) ...
+	    + ((lambda / m) .* (Theta1(:, 2:end)));
+Theta2_grad(:, 2 : end) = Theta2_grad(:, 2:end) ...
+	    + ((lambda / m) .* (Theta2(:, 2:end)));
+
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
 
