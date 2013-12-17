@@ -8,16 +8,17 @@ function [J, grad] = linearRegCostFunction(X, y, theta, lambda)
 % Initialize some useful values
 m = length(y); % number of training examples
 
-% You need to return the following variables correctly 
-J = 0;
-grad = zeros(size(theta));
-
-% Calculate cost
+% Calculate cost.
 J = (1 / (2 * m)) * sum(((X * theta) - y) .^ 2);
 
-% Regularize cost
+% Regularize cost.
 J = J + ((lambda / (2 * m)) * sum(theta(2:end, 1) .^ 2));
 
+% Calculate gradient.
+grad = (1 / m) * (X' * ((X * theta) - y));
+
+% Regularize the gradient
+grad(2:end, 1) = grad(2:end, 1) + ((lambda / m) .* theta(2:end, 1));
 
 % Unroll the gradient.
 grad = grad(:);
