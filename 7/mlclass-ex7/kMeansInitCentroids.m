@@ -3,24 +3,14 @@ function centroids = kMeansInitCentroids(X, K)
 %used in K-Means on the dataset X
 %   centroids = KMEANSINITCENTROIDS(X, K) returns K initial centroids to be
 %   used with the K-Means on the dataset X
-%
 
-% You should return this values correctly
-centroids = zeros(K, size(X, 2));
+% Create a random permutation of the integers {1, ..., m} where m is the
+% number of training examples.
+randidx = randperm(size(X, 1));
 
-% ====================== YOUR CODE HERE ======================
-% Instructions: You should set centroids to randomly chosen examples from
-%               the dataset X
-%
-
-
-
-
-
-
-
-
-% =============================================================
+% Sets the initial positions of the centroids to be K random training
+% examples.
+centroids = X(randidx(1:K), :);
 
 end
 
