@@ -10,27 +10,11 @@ function [mu sigma2] = estimateGaussian(X)
 % Useful variables
 [m, n] = size(X);
 
-% You should return these values correctly
-mu = zeros(n, 1);
-sigma2 = zeros(n, 1);
+mu = mean(X)';
 
-% ====================== YOUR CODE HERE ======================
-% Instructions: Compute the mean of the data and the variances
-%               In particular, mu(i) should contain the mean of
-%               the data for the i-th feature and sigma2(i)
-%               should contain variance of the i-th feature.
-%
-
-
-
-
-
-
-
-
-
-
-% =============================================================
-
+% We multiply the return value of var() by the factor (m-1)/m as var() calculates
+% the variance using a factor of 1 / (m - 1) but our anamoly detection algorithm
+% uses a factor of 1 / m.
+sigma2 = ((m - 1) / m) .* var(X)';
 
 end
