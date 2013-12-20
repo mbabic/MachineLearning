@@ -17,45 +17,23 @@ J = 0;
 X_grad = zeros(size(X));
 Theta_grad = zeros(size(Theta));
 
-% ====================== YOUR CODE HERE ======================
-% Instructions: Compute the cost function and gradient for collaborative
-%               filtering. Concretely, you should first implement the cost
-%               function (without regularization) and make sure it is
-%               matches our costs. After that, you should implement the 
-%               gradient and use the checkCostFunction routine to check
-%               that the gradient is correct. Finally, you should implement
-%               regularization.
-%
 % Notes: X - num_movies  x num_features matrix of movie features
 %        Theta - num_users  x num_features matrix of user features
 %        Y - num_movies x num_users matrix of user ratings of movies
 %        R - num_movies x num_users matrix, where R(i, j) = 1 if the 
 %            i-th movie was rated by the j-th user
-%
-% You should set the following variables correctly:
-%
-%        X_grad - num_movies x num_features matrix, containing the 
-%                 partial derivatives w.r.t. to each element of X
-%        Theta_grad - num_users x num_features matrix, containing the 
-%                     partial derivatives w.r.t. to each element of Theta
-%
 
+% Calculate cost.
+J = (1 / 2) * sum(sum((((X * Theta') - Y) .^ 2).* R)) + ...
+    ( (lambda / 2) * sum(sum(Theta .^ 2)) ) + ...
+    ( (lambda / 2) * sum(sum(X .^ 2)) );
 
+% Calculate gradients.
+common_matrix = ((X * Theta') - Y) .* R;
 
+X_grad = (common_matrix * Theta) + (lambda .* X); 
 
-
-
-
-
-
-
-
-
-
-
-
-
-% =============================================================
+Theta_grad = (common_matrix' * X) + (lambda .* Theta);
 
 grad = [X_grad(:); Theta_grad(:)];
 
