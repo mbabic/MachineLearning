@@ -106,7 +106,6 @@ load('ex8data2.mat');
 
 %  Training set 
 p = multivariateGaussian(X, mu, sigma2);
-
 %  Cross-validation set
 pval = multivariateGaussian(Xval, mu, sigma2);
 
